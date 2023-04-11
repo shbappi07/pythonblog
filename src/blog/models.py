@@ -1,4 +1,6 @@
 from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
+from taggit.managers import TaggableManager
 
 # Create your models here.
 
@@ -7,19 +9,19 @@ class Blog(models.Model):
     details = models.CharField(max_length=200)
 
     def __str__(self):
-        self.blog_name
+        return self.blog_name
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
-    description = models.TextField()
+    slug = models.SlugField(unique=True, blank= True)
+    description = RichTextUploadingField()
     featured_image = models.ImageField(upload_to='uploads/')
-    tags = models.CharField(max_length=200)
+    tags = TaggableManager(blank= True)
     featured = models.BooleanField(default=False)
     pub_date = models.DateTimeField(auto_now=True)
     mod_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        self.title
+        return self.title
 
 
